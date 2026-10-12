@@ -1,18 +1,30 @@
-#include <iostream>
-
-// TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-
+#include "threepp/threepp.hpp"
+using namespace threepp;
 int main() {
-    // TIP Press <shortcut actionId="RenameElement"/> when your caret is at the <b>lang</b> variable name to see how CLion can help you rename it.
-
-    const auto lang = "C++";
-    std::cout << "Hello and welcome to " << lang << "!\n";
-
-    for (int i = 1; i <= 5; i++) {
-        // TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-        std::cout << "i = " << i << std::endl;
-    }
-
-    return 0;
-    // TIP See CLion help at <a href="https://www.jetbrains.com/help/clion/">jetbrains.com/help/clion/</a>. Also, you can try interactive lessons for CLion by selecting 'Help | Learn IDE Features' from the main menu.
+    Canvas canvas("threepp");
+    GLRenderer renderer(canvas);
+    auto scene = Scene::create();
+    scene->background = Color::white;
+    auto camera = PerspectiveCamera::create(60, canvas.aspect(), 0.1f, 1000);
+    camera->position.z = 5;
+    canvas.onWindowResize([&](WindowSize size) {
+    camera->aspect = size.aspect();
+    camera->updateProjectionMatrix();
+    renderer.setSize(size);
+    });
+    auto light = DirectionalLight::create();
+    light->position.set(1, 2, 3);
+    scene->add(light);
+    scene->add(AmbientLight::create(0xffffff, 0.4f)); // hvitt lys med 40 % styrke
+    auto geometry = BoxGeometry::create(1, 1, 1);
+    auto material = MeshStandardMaterial::create();
+    material->color = Color::orange;
+    auto box = Mesh::create(geometry, material);
+    scene->add(box);
+    Clock clock;
+    canvas.animate([&] {
+    const float dt = clock.getDelta();
+    box->rotation.y += 1.0f * dt; // én radian per sekund
+    renderer.render(*scene, *camera);
+    });
 }
