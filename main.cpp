@@ -32,7 +32,6 @@ int main() {
     light->position.set(1, 2, 3);
     scene->add(light);
     auto ambientLight = AmbientLight::create(0xffffff, 0.4f); // hvitt lys med 40 % styrke
-    scene->add(ambientLight);
 
     // Parametre for boksene
     int numberOfBoxes =8;
@@ -42,34 +41,61 @@ int main() {
 
     //laget liste av bokser og materialer for å holde styr på dem
     std::vector<std::shared_ptr<Mesh>>boxes;
-    std::vector <std::shared_ptr<MeshStandardMaterial>> materials;
     auto geometry = BoxGeometry::create(1, 1, 1);
 
 
 
 
-    // Kube
+    // Et delt material for hver gruppe
+    auto evenMaterial = MeshStandardMaterial::create();
+    evenMaterial->color = Color::blue;
+
+    auto oddMaterial = MeshStandardMaterial::create();
+    oddMaterial->color = Color::blue;
+
+    // Lager en sentrerer ekke av bokser
+        float center = (numberOfBoxes - 1) / 2.0f;
 
     for (int i = 0; i < numberOfBoxes; i++) {
-        auto material = MeshStandardMaterial::create();
-        material->color = Color::blue;
+        auto material = evenMaterial;
+
+        if (i % 2 == 1) {
+            material = oddMaterial;
+        }
+
         auto box = Mesh::create(geometry, material);
+        box->position.x = (i - center) * spacing;
+
         scene->add(box);
-
-        float center = (numberOfBoxes - 1) * spacing / 2.0f;
-        box ->position.x = (i - center) * spacing;
-         scene->add(box);
-
         boxes.push_back(box);
-        materials.push_back(material);
     }
 
-        // Animasjon
-        Clock clock;
-        canvas.animate([&] {
-            const float dt = clock.getDelta();
-            box->rotation.y += 1.0f * dt;// én radian per sekund
-            renderer.render(*scene, *camera);
-        });
+
+
+
+
+
+    // animasjon av boksene mens de beveger seg
+    Clock clock;
+
+    canvas.animate([&] {
+        float time = clock.getElapsedTime();
+
+        for (int i = 0; i < numberOfBoxes; i++) {
+            float phase = 0;
+
+            if (i % 2 == 1) {
+                phase = math::PI;
+            }
+
+            float angle = 2 * math::PI * frequency * time + phase;
+            float height = amplitude * std::sin(angle);
+
+            boxes[i]->position.y = height;
+        }
+
+        renderer.render(*scene, *camera);
+    });
+
 
 }
