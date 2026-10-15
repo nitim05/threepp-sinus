@@ -43,9 +43,6 @@ int main() {
     std::vector<std::shared_ptr<Mesh>>boxes;
     auto geometry = BoxGeometry::create(1, 1, 1);
 
-
-
-
     // Et delt material for hver gruppe
     auto evenMaterial = MeshStandardMaterial::create();
     evenMaterial->color = Color::blue;
