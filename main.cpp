@@ -43,18 +43,26 @@ int main() {
     //laget liste av bokser og materialer for å holde styr på dem
     std::vector<std::shared_ptr<Mesh>>boxes;
     std::vector <std::shared_ptr<MeshStandardMaterial>> materials;
+    auto geometry = BoxGeometry::create(1, 1, 1);
 
 
 
 
     // Kube
-  
-        auto geometry = BoxGeometry::create(1, 1, 1);
+
+    for (int i = 0; i < numberOfBoxes; i++) {
         auto material = MeshStandardMaterial::create();
         material->color = Color::blue;
         auto box = Mesh::create(geometry, material);
         scene->add(box);
 
+        float center = (numberOfBoxes - 1) * spacing / 2.0f;
+        box ->position.x = (i - center) * spacing;
+         scene->add(box);
+
+        boxes.push_back(box);
+        materials.push_back(material);
+    }
 
         // Animasjon
         Clock clock;
