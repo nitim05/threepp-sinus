@@ -18,7 +18,7 @@ int main() {
 
     // Kamera
     auto camera = PerspectiveCamera::create(60, canvas.aspect(), 0.1f, 1000);
-    camera->position.z = 9;
+    camera->position.z = 10;
 
     // Endring av vindusstørrelse
     canvas.onWindowResize([&](WindowSize size) {
