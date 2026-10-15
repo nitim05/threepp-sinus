@@ -31,7 +31,21 @@ int main() {
     auto light = DirectionalLight::create();
     light->position.set(1, 2, 3);
     scene->add(light);
-    scene->add(AmbientLight::create(0xffffff, 0.4f)); // hvitt lys med 40 % styrke
+    auto ambientLight = AmbientLight::create(0xffffff, 0.4f); // hvitt lys med 40 % styrke
+    scene->add(ambientLight);
+
+    // Parametre for boksene
+    int numberOfBoxes =8;
+    float spacing = 1.5f;
+    float amplitude = 1.5f;
+    float frequency = 0.5f;
+
+    //laget liste av bokser og materialer for å holde styr på dem
+    std::vector<std::shared_ptr<Mesh>>boxes;
+    std::vector <std::shared_ptr<MeshStandardMaterial>> materials;
+
+
+
 
     // Kube
   
