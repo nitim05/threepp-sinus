@@ -10,4 +10,4 @@ Et enkelt C++-prosjekt som bruker threepp.
 
 Åpne prosjektet i CLion, la CMake laste inn prosjektet, og kjør programmet.
 
-![Bokser som beveger seg i sinus](![Threepppic.png](../../Downloads/Threepppic.png))
+![Bokser som beveger seg i sinus](Threepppic.png)
