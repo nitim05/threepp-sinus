@@ -18,7 +18,7 @@ int main() {
 
     // Kamera
     auto camera = PerspectiveCamera::create(60, canvas.aspect(), 0.1f, 1000);
-    camera->position.z = 15;
+    camera->position.z = 10;
 
     // Endring av vindusstørrelse
     canvas.onWindowResize([&](WindowSize size) {
@@ -71,6 +71,34 @@ int main() {
     }
 
 
+    // Variabler for å holde styr på hvilken gruppe som skal endres
+    int group = 0;
+    bool evenGroupBlue = true;
+    bool oddGroupBlue = true;
+
+    canvas.onKeyPressed([&](KeyEvent event) {
+        if (event.key == Key::SPACE) {
+            if (group == 0) {
+                if (evenGroupBlue) {
+                    evenMaterial->color = Color::orange;
+                } else {
+                    evenMaterial->color = Color::blue;
+                }
+
+                evenGroupBlue = !evenGroupBlue;
+                group = 1;
+            } else {
+                if (oddGroupBlue) {
+                    oddMaterial->color = Color::red;
+                } else {
+                    oddMaterial->color = Color::blue;
+                }
+
+                oddGroupBlue = !oddGroupBlue;
+                group = 0;
+            }
+        }
+    });
 
 
 
