@@ -1,4 +1,9 @@
 #include "threepp/threepp.hpp"
+#include <vector>
+#include <memory>
+#include <cmath>
+
+
 
 using namespace threepp;
 
@@ -29,17 +34,20 @@ int main() {
     scene->add(AmbientLight::create(0xffffff, 0.4f)); // hvitt lys med 40 % styrke
 
     // Kube
-    auto geometry = BoxGeometry::create(1, 1, 1);
-    auto material = MeshStandardMaterial::create();
-    material->color = Color::blue;
-    auto box = Mesh::create(geometry, material);
-    scene->add(box);
+  
+        auto geometry = BoxGeometry::create(1, 1, 1);
+        auto material = MeshStandardMaterial::create();
+        material->color = Color::blue;
+        auto box = Mesh::create(geometry, material);
+        scene->add(box);
 
-    // Animasjon
-    Clock clock;
-    canvas.animate([&] {
-        const float dt = clock.getDelta();
-        box->rotation.y += 1.0f * dt; // én radian per sekund
-        renderer.render(*scene, *camera);
-    });
+
+        // Animasjon
+        Clock clock;
+        canvas.animate([&] {
+            const float dt = clock.getDelta();
+            box->rotation.y += 1.0f * dt;// én radian per sekund
+            renderer.render(*scene, *camera);
+        });
+
 }
