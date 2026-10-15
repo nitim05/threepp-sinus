@@ -9,7 +9,7 @@ using namespace threepp;
 
 int main() {
     // Vindu og rendering
-    Canvas canvas("threepp");
+    Canvas canvas("Sin wave animation");
     GLRenderer renderer(canvas);
 
     // Scene
@@ -18,7 +18,7 @@ int main() {
 
     // Kamera
     auto camera = PerspectiveCamera::create(60, canvas.aspect(), 0.1f, 1000);
-    camera->position.z = 5;
+    camera->position.z = 15;
 
     // Endring av vindusstørrelse
     canvas.onWindowResize([&](WindowSize size) {
